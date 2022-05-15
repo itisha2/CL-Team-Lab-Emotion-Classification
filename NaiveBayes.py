@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 
 class NaiveBayes:
@@ -36,18 +37,23 @@ class NaiveBayes:
         print("Evidence Probability: ", self.evidence_prob, "\n")
 
     def naive_bayes_predict(self):
-        self.df_test["pred_prob"] = pd.Series([])
+        df_pp = pd.DataFrame()
+        pred_prob = []
         for i in range(self.no_labels):
             # multiply test data feature values by the evidence probabilities (NOMINATOR)
-            self.df_test["prob_nom"] = pd.Series([])
+            self.df_test["prob_nom"] = np.ones(self.N)
             for j in range(len(self.featureSet)):
                 feature = self.featureSet[j]
-                self.df_test.loc[self.df_test[feature] == 1]["prob_nom"] *= self.evidence_prob[i][j]
-                self.df_test.loc[self.df_test[feature] == 0]["prob_nom"] *= (1 - self.evidence_prob[i][j])
-            print(self.df_test["prob_nom"], "\n")
-        # divide probability by probability of the class
-        self.df_test["pred_prob"].append(self.df_test["prob_nom"] / self.class_prob[i])
+                print(self.df_test["prob_nom"])
+                self.df_test.loc[self.df_test[feature] == 1.0, "prob_nom"] *= self.evidence_prob[i][j]
+                self.df_test.loc[self.df_test[feature] == 0.0, "prob_nom"] *= (1 - self.evidence_prob[i][j])
+                print(self.df_test["prob_nom"])
+
+            # multiply probability by probability of the class
+            df_pp[i] = self.df_test["prob_nom"] * self.class_prob[i]
 
         # set class with max prob as predicted class
-        self.df_test["Target-Predict"] = np.argmax(self.df_test["pred_prob"]) + 1
+        self.df_test["Target-Predict"] = df_pp[[i for i in range(self.no_labels)]].idxmax(axis=1) + 1
+
+        print(self.df_test["Target-Predict"])
 
