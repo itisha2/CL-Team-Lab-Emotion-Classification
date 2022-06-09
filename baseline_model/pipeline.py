@@ -6,10 +6,8 @@ from load_data import *
 from baseline_classifier import *
 from evaluation import *
 
-input_data_path = r"C:\Users\Itisha Yadav\CL-Team-Lab-Emotion-Classification\data\isear"
 
-
-def main(train_labels):
+def main(train_labels, input_data_path):
     """
     Step 1: Load training data
     """
