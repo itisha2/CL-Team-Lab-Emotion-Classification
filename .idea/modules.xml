@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/CL-Team-Lab-Emotion-Classification.iml" filepath="$PROJECT_DIR$/.idea/CL-Team-Lab-Emotion-Classification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../TeamLab-CL/.idea/TeamLab-CL.iml" filepath="$PROJECT_DIR$/../TeamLab-CL/.idea/TeamLab-CL.iml" />
     </modules>
   </component>
 </project>
