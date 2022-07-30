@@ -1,8 +1,13 @@
+"""
+This script has dependencies for the inference code of bert model.
+"""
+
 import numpy as np
 import torch
 from transformers import BertForSequenceClassification
 from transformers import BertTokenizer
 from transformers.modeling_outputs import SequenceClassifierOutput
+
 
 class BertForMultilabelSequenceClassification(BertForSequenceClassification):
     def __init__(self, config):
@@ -50,30 +55,3 @@ class BertForMultilabelSequenceClassification(BertForSequenceClassification):
             hidden_states=outputs.hidden_states,
             attentions=outputs.attentions)
 
-def inference(sentences, num_labels):
-
-    n_sentences = len(sentences)
-
-    model = BertForMultilabelSequenceClassification.from_pretrained("bert-base-uncased",
-                                                                    num_labels=num_labels,
-                                                                    output_attentions=False,
-                                                                    output_hidden_states=False)
-
-    model.load_state_dict(torch.load('./finetuned_BERT_epoch_2.model', map_location=torch.device('cpu')))
-
-
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased',
-                                              do_lower_case=True)
-    encoded_input = tokenizer.batch_encode_plus(
-        sentences,
-        add_special_tokens=True,
-        return_attention_mask=True,
-        pad_to_max_length=True,
-        max_length=256,
-        return_tensors='pt'
-    )
-    output = model(**encoded_input)
-    label = torch.argmax(output[0], dim=1)
-    # print(np.asarray(sentences).T.reshape(2,1).shape)
-    # print(output[0].detach().numpy().shape)
-    return np.concatenate((np.asarray(sentences).T.reshape(n_sentences,1), label.numpy().reshape(n_sentences,1), output[0].detach().numpy()), axis=1)

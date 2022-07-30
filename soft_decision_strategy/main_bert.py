@@ -1,3 +1,9 @@
+
+"""
+This script has the training and evaluation logic for BERT model.
+"""
+
+
 import numpy as np
 import torch
 import random

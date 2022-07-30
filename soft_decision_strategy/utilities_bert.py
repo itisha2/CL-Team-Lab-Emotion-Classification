@@ -1,3 +1,8 @@
+"""
+This script has utilities for the BERT model.
+"""
+
+
 import numpy as np
 
 def proba_to_labels(proba):

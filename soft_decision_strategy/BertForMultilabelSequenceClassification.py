@@ -3,7 +3,11 @@ import torch
 from transformers import BertForSequenceClassification
 from transformers.modeling_outputs import SequenceClassifierOutput
 
+
 class BertForMultilabelSequenceClassification(BertForSequenceClassification):
+    """
+    Bert Model main class
+    """
     def __init__(self, config):
       super().__init__(config)
 
